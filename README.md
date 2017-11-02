@@ -1,1 +1,1 @@
-# i3blocks_blocklets
+# i3blocks blocklets
