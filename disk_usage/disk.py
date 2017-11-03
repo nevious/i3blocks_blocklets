@@ -9,12 +9,13 @@ def get_disk_stats(mp):
 
 	total = stat.f_blocks * stat.f_frsize/1024**3
 	avail = stat.f_bavail * stat.f_frsize/1024**3
+	used = total - avail
 
 	return {
 		'avail': avail,
 		'total': total,
-		'used': total - avail,
-		'per_c': 100-(100*avail / total)
+		'used': used,
+		'per_c': 100*used/total
 	}
 
 def launch_ncdu(mp):
