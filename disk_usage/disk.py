@@ -17,13 +17,13 @@ def get_disk_stats(mp):
 		'per_c': 100-(100*avail / total)
 	}
 
-def launch_ncdu():
+def launch_ncdu(mp):
 	cmd = [
 		'/usr/bin/sakura',
 		'-t',
 		'pop-up',
 		'-e',
-		'/usr/bin/ncdu %s' % mount_p,
+		'/usr/bin/ncdu %s' % mp,
 		'-x',
 	]
 
@@ -59,7 +59,7 @@ def main():
 
 	_button = os.getenv('BLOCK_BUTTON')
 	if _button and int(_button) == 1:
-		launch_ncdu()
+		launch_ncdu(mount_p)
 
 
 if __name__ == '__main__':
