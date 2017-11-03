@@ -46,10 +46,6 @@ def parse_args():
 	try:
 		for arg in sys.argv[1:]:
 			key, value = arg.split('=')
-			if not key in args:
-				continue
-
-
 			args[key] = int(value) if value.isdigit() else value
 	except (KeyError, ValueError):
 		# ValuError in case user does something weird
