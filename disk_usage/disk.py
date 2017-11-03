@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 import subprocess
 
 def get_disk_stats(mp):
@@ -33,6 +34,29 @@ def launch_ncdu(mp):
 		stdout=open(os.devnull, 'w'),
 		stderr=subprocess.STDOUT
 	)
+
+def parse_args():
+	args = {
+		'warn_threshold': 80,
+		'crit_threshold': 90,
+		'warn_color': '#d6af4e',
+		'crit_color': '#d64e4e'
+	}
+
+	try:
+		for arg in sys.argv[1:]:
+			key, value = arg.split('=')
+			if not key in args:
+				continue
+
+
+			args[key] = int(value) if value.isdigit() else value
+	except (KeyError, ValueError):
+		# ValuError in case user does something weird
+		pass
+
+	return args
+
 
 def main():
 	_p = os.getenv('BLOCK_INSTANCE')
