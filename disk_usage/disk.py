@@ -57,35 +57,43 @@ def parse_args():
 
 	return args
 
+def get_instance():
+	p = os.getenv('BLOCK_INSTANCE')
+	if p and os.path.exists(p):
+		return p
+
+	return os.getenv('HOME')
 
 def main():
-	_p = os.getenv('BLOCK_INSTANCE')
-	output_color = ''
-	warn_color = '#d6af4e'
-	crit_color = '#d64e4e'
-	warning = 80
-	critical = 90
-	mount_p = _p if _p else os.getenv('HOME')
 
-	stats = get_disk_stats(mount_p)
-	print('%.1fG/%.1fG (%.1f%%) -  %.1fG\n' % (
-			stats['used'],
-			stats['total'],
-			stats['per_c'],
-			stats['avail']
-		)
+	output_color = ''
+	args = parse_args()
+	m_point = get_instance()
+	stats = get_disk_stats(m_point)
+
+	# get some more info when not called by i3blocks
+	if not os.getenv('BLOCK_NAME'):
+		print('Args: %s' % args)
+		print('Stats: %s' % stats)
+		print('Mount Point: %s' % m_point)
+
+	# print stats
+	print('%.1fG/%.1fG (%.1f%%) -  %.1fG\n' % 
+		(stats['used'], stats['total'], stats['per_c'], stats['avail'])
 	)
 
-	if critical > int(stats['per_c']) >= warning:
-		output_color = warn_color
-	elif stats['per_c'] >= critical:
-		output_color = crit_color
+	# determine color
+	if args['crit_threshold'] > int(stats['per_c']) >= args['warn_threshold']:
+		output_color = args['warn_color']
+	elif stats['per_c'] >= args['crit_threshold']:
+		output_color = args['crit_color']
 
 	print(output_color)
 
+	# handle click-event
 	_button = os.getenv('BLOCK_BUTTON')
 	if _button and int(_button) == 1:
-		launch_ncdu(mount_p)
+		launch_ncdu(m_point)
 
 
 if __name__ == '__main__':
