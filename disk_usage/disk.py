@@ -43,10 +43,11 @@ def main():
 	mount_p = _p if _p else os.getenv('HOME')
 
 	stats = get_disk_stats(mount_p)
-	print('%.1fG/%.1fG (%.1f%%)\n' % (
-			stats['avail'],
+	print('%.1fG/%.1fG (%.1f%%) -  %.1fG\n' % (
+			stats['used'],
 			stats['total'],
-			stats['per_c']
+			stats['per_c'],
+			stats['avail']
 		)
 	)
 
