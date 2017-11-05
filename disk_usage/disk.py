@@ -40,7 +40,8 @@ def parse_args():
 		'warn_threshold': 80,
 		'crit_threshold': 90,
 		'warn_color': '#d6af4e',
-		'crit_color': '#d64e4e'
+		'crit_color': '#d64e4e',
+		'format': '{used:.1f}G/{total:.1f}G ({per_c:.1f}%) -  {avail:.1f}G'
 	}
 
 	try:
@@ -73,10 +74,9 @@ def main():
 		print('Stats: %s' % stats)
 		print('Mount Point: %s' % m_point)
 
-	# print stats
-	print('%.1fG/%.1fG (%.1f%%) -  %.1fG\n' % 
-		(stats['used'], stats['total'], stats['per_c'], stats['avail'])
-	)
+	# print stats with format if given
+	print(args['format'].format(**stats))
+	print()
 
 	# determine color
 	if args['crit_threshold'] > int(stats['per_c']) >= args['warn_threshold']:
