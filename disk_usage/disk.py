@@ -5,19 +5,21 @@ import os
 import sys
 import subprocess
 
+
 def get_disk_stats(mp):
 	stat = os.statvfs(mp)
 
-	total = stat.f_blocks * stat.f_frsize/1024**3
-	avail = stat.f_bavail * stat.f_frsize/1024**3
+	total = stat.f_blocks * stat.f_frsize / 1024 ** 3
+	avail = stat.f_bavail * stat.f_frsize / 1024 ** 3
 	used = total - avail
 
 	return {
 		'avail': avail,
 		'total': total,
 		'used': used,
-		'per_c': 100*used/total
+		'per_c': 100 * used / total
 	}
+
 
 def launch_ncdu(mp):
 	cmd = [
@@ -34,6 +36,7 @@ def launch_ncdu(mp):
 		stdout=open(os.devnull, 'w'),
 		stderr=subprocess.STDOUT
 	)
+
 
 def parse_args():
 	args = {
@@ -54,12 +57,14 @@ def parse_args():
 
 	return args
 
+
 def get_instance():
 	p = os.getenv('BLOCK_INSTANCE')
 	if p and os.path.exists(p):
 		return p
 
 	return os.getenv('HOME')
+
 
 def main():
 
