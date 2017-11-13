@@ -9,7 +9,7 @@ So a standard configuration minding a specific partition would look as follows:
 label=:
 instance=/nas
 interval=30
-command=disk
+command=$SCRIPT_DIR/disk_usage/disk_usage
 ```
 
 ## Arguments
@@ -81,7 +81,7 @@ Quotes are required for format.
 label=:
 instance=/
 interval=30
-command=disk format="{used:.1f}G used of {total:.1f} Total beeing {perc_used}%" warn_color=#90ce00
+command=$SCRIPT_DIR/disk_usage/disk_usage format="{used:.1f}G used of {total:.1f} Total beeing {perc_used}%" warn_color=#90ce00
 ```
 
 ## Click events
