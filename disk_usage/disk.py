@@ -17,7 +17,7 @@ def get_disk_stats(mp):
 		'avail': avail,
 		'total': total,
 		'used': used,
-		'per_c': 100 * used / total
+		'perc_used': 100 * used / total
 	}
 
 
@@ -44,7 +44,7 @@ def parse_args():
 		'crit_threshold': 90,
 		'warn_color': '#d6af4e',
 		'crit_color': '#d64e4e',
-		'format': '{used:.1f}G/{total:.1f}G ({per_c:.1f}%) -  {avail:.1f}G'
+		'format': '{used:.1f}G/{total:.1f}G ({perc_used:.1f}%) -  {avail:.1f}G'
 	}
 
 	try:
@@ -84,9 +84,9 @@ def main():
 	print()
 
 	# determine color
-	if args['crit_threshold'] > int(stats['per_c']) >= args['warn_threshold']:
+	if args['crit_threshold'] > int(stats['perc_used']) >= args['warn_threshold']:
 		output_color = args['warn_color']
-	elif stats['per_c'] >= args['crit_threshold']:
+	elif stats['perc_used'] >= args['crit_threshold']:
 		output_color = args['crit_color']
 
 	print(output_color)
