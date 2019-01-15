@@ -33,28 +33,33 @@ def main():
 		'b_mid': ('', '#79d14d'),
 		'b_low': ('', '#d64e4e'),
 		'b_crit': ('', '#d64e4e'),
-		'b_plugged': ('', '#93bbd6')
+		'b_plugged': ('', '#93bbd6'),
+		'b_unknown': ('', '#ff4800')
 	}
 
 	battery = psutil.sensors_battery()
+	if not battery:
+		print('{0} N/A\n'.format(output_map['b_unknown'][0]))
+		print(output_map['b_unknown'][1])
+		sys.exit(0)
 
 	if battery.power_plugged:
 		output = output_map['b_plugged']
-	elif 100 >= battery.percent <= 80:
-		output = output_map('b_high')
-	elif 79 >= battery.percent <= 40:
+	elif 100 >= battery.percent >= 60:
+		output = output_map['b_high']
+	elif 59 >= battery.percent >= 16:
 		output = output_map['b_mid']
-	elif 39 >= battery.percent <= 10:
+	elif 15 >= battery.percent >= 0:
 		output = output_map['b_crit']
 
-	if battery.secsleft.value < 0:
+	if not isinstance(battery.secsleft, int):
 		secsleft = 0
 	else:
-		secsleft = battery.secsleft.value
+		secsleft = battery.secsleft
 
 	timeleft = datetime.timedelta(seconds=secsleft)
 	# icon - percentage - livetime
-	fmt = '{0} - {1}% - {2}\n'
+	fmt = '{0} - {1:.1f}% - {2}\n'
 	out = fmt.format(
 		output[0],
 		battery.percent,
