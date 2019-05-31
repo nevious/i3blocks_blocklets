@@ -29,11 +29,11 @@ import datetime
 
 def main():
 	output_map = {
-		'b_high': ('', '#66c635'),
-		'b_mid': ('', '#79d14d'),
-		'b_low': ('', '#d64e4e'),
-		'b_crit': ('', '#d64e4e'),
-		'b_plugged': ('', '#93bbd6'),
+		'b_high': ('', '#66C635'),
+		'b_mid': ('', '#ACC736'),
+		'b_low': ('', '#C77236'),
+		'b_crit': ('', '#C74936'),
+		'b_plugged': ('', '#36A5C7'),
 		'b_unknown': ('', '#ff4800')
 	}
 
@@ -48,17 +48,22 @@ def main():
 	if battery.power_plugged:
 		output = output_map['b_plugged']
 		secsleft = 0  # irrelevant at this point.
-	elif 100 >= battery.percent >= 60:
+	elif 100 >= battery.percent >= 61:
 		output = output_map['b_high']
-	elif 59 >= battery.percent >= 16:
+	elif 60 >= battery.percent >= 21:
 		output = output_map['b_mid']
-	elif 15 >= battery.percent >= 0:
+	elif 20 >= battery.percent >= 11:
+		output = output_map['b_low']
+	elif 10 >= battery.percent >= 0:
 		output = output_map['b_crit']
 
-	timeleft = datetime.timedelta(seconds=secsleft)
+	if secsleft == 0:
+		timeleft = ''
+	else:
+		timeleft = datetime.timedelta(seconds=secsleft)
 
 	# icon - percentage - livetime
-	fmt = '{0}: - {1:.1f}% - {2}\n'
+	fmt = '{0}: {1:.1f}% - {2}\n'
 	out = fmt.format(
 		output[0],
 		battery.percent,
