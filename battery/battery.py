@@ -33,7 +33,8 @@ def main():
 		'b_mid': ('', '#ACC736'),
 		'b_low': ('', '#C77236'),
 		'b_crit': ('', '#C74936'),
-		'b_plugged': ('', '#36A5C7'),
+		'b_plugged': ('', '#FFFFFF'),
+		'b_charging': ('', '#36A5C7'),
 		'b_unknown': ('', '#ff4800')
 	}
 
@@ -45,7 +46,10 @@ def main():
 
 	secsleft = battery.secsleft  # by default
 
-	if battery.power_plugged:
+	if battery.power_plugged and battery.percent < 100:
+		output = output_map['b_charging']
+		secsleft = 0
+	elif battery.power_plugged and battery.percent == 100:
 		output = output_map['b_plugged']
 		secsleft = 0  # irrelevant at this point.
 	elif 100 >= battery.percent >= 61:
