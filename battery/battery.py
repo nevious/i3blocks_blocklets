@@ -67,14 +67,19 @@ def main():
 		timeleft = datetime.timedelta(seconds=secsleft)
 
 	# icon - percentage - livetime
-	fmt = '{0}: {1:.1f}% - {2}\n'
+	fmt = '{0}: {1:.1f}% - {2}'
 	out = fmt.format(
 		output[0],
 		battery.percent,
 		timeleft
 	)
 
+	short_fmt = '{0:.1f}%'
+
+	short_out = short_fmt.format(battery.percent)
+
 	print(out)
+	print(short_out)
 	print(output[1])
 
 
