@@ -113,7 +113,7 @@ def print_output(is_wifi, signal_indicator, iface, ssid, if_addr):
 
 	template = {
 		'wired': {
-			'full_text': "<span foreground='{}'>: {}</span>"
+			'full_text': "<span foreground='{0}'>: {1}</span>"
 		},
 		'wireless': {
 			'full_text': "  {0}:{1} <span foreground='{2}'> {3:.0f}%</span>"
@@ -137,7 +137,7 @@ def print_output(is_wifi, signal_indicator, iface, ssid, if_addr):
 			)
 		)
 	elif not is_wifi and if_addr:
-		print(template['wired']['full_text'].format('#FFFFFF'))
+		print(template['wired']['full_text'].format('#FFFFFF', if_addr))
 
 def main():
 	iface = get_default_route_interface()
