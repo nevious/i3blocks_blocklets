@@ -1,5 +1,27 @@
 #!/usr/bin/env python3
 
+# MIT License
+
+# Copyright (c) 2020 Christian Schläppi
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import os
 import sys
 import fcntl
@@ -51,7 +73,7 @@ def get_wifi_name(iface):
 
 	return essid.tobytes().decode().rstrip('\0')
 
-def get_ip_address(iface):
+def get_if_address(iface):
 	"""
 	based on https://stackoverflow.com/questions/6243276/how-to-get-the-physical-interface-ip-address-from-an-interface
 
@@ -78,7 +100,7 @@ def generate_signal_color(indicator):
 	}
 
 	# based on 70 == 100% = this is how iwconfig reports link quality
-	# 56 == 80%, 21 == 20%
+	# 56 == 80%, 21 == 30%
 	if indicator >= 56:
 		return color_map['high']
 	if 57 >= indicator <= 21:
@@ -130,7 +152,7 @@ def main():
 	if wifi and signal_indicator:
 		ssid = get_wifi_name(iface)
 
-	if_addr = get_ip_address(iface)
+	if_addr = get_if_address(iface)
 	
 	print_output(wifi, signal_indicator, iface, ssid, if_addr)
 
