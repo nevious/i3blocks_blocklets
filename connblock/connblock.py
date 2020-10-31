@@ -40,7 +40,7 @@ def get_default_route_interface():
 	fd.close()
 
 	for route in enumerate(routes):
-		if int(route[1][2], 16) == 0:
+		if int(route[1][1], 16) == 0:
 			return route[1][0]
 
 	return None
